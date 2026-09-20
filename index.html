@@ -362,6 +362,8 @@ document.getElementById('sbCloseBtn').addEventListener('click', function () {
   window.KOALA_SUPABASE_KEY = 'COLE_SUA_PUBLISHABLE_KEY_AQUI';
 </script>
 <script>
+ window.KOALA_SUPABASE_URL = 'https://uxrhqsesnzlrghqvgcix.supabase.co';
+window.KOALA_SUPABASE_KEY = 'COLE_AQUI_SUA_CHAVE_sb_publishable';
 (function(){
   const K='koala_admin_total_v1';
   const SB_URL=(window.KOALA_SUPABASE_URL||'').trim();
@@ -403,7 +405,7 @@ document.getElementById('sbCloseBtn').addEventListener('click', function () {
 }
     const {data}=await sb.auth.getSession();
     sbSession=data.session;
-    if(sbSession){ await loadCloud(); q('adminOverlay').style.display='block'; fill(); msg('ADM conectado ao Supabase.'); }
+    if(sbSession){ await loadCloud(); qz fill(); msg('ADM conectado ao Supabase.'); }
     else { q('supabaseLogin').style.display='block'; q('sbEmail').focus(); }
   };
   async function loadCloud(){
