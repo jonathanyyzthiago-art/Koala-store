@@ -94,6 +94,27 @@ document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target==m)hide
     <button class="btn btn-primary" id="sbLoginBtn" style="width:100%">Entrar no ADM</button>
     <button class="btn" id="sbCloseBtn" style="width:100%;margin-top:8px">Cancelar</button>
   </div>
+ <div id="supabaseLogin" class="admin-overlay" style="display:none;z-index:9999;background:rgba(0,0,0,.82)">
+  <div style="max-width:420px;margin:10vh auto;background:#fff;border-radius:18px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+    <h2 style="margin-top:0">🔐 Login do administrador</h2>
+    <p style="color:#666">Entre com a conta de administrador da Koala Store.</p>
+
+    <label style="display:block;font-weight:600;margin:12px 0">
+      E-mail
+      <input id="sbEmail" type="email" autocomplete="username" style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:10px;margin-top:6px">
+    </label>
+
+    <label style="display:block;font-weight:600;margin:12px 0">
+      Senha
+      <input id="sbPassword" type="password" autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:10px;margin-top:6px">
+    </label>
+
+    <div id="sbStatus" style="min-height:20px;color:#b00020;margin:10px 0"></div>
+
+    <button class="btn btn-primary" id="sbLoginBtn" style="width:100%">Entrar no ADM</button>
+    <button class="btn" id="sbCloseBtn" style="width:100%;margin-top:8px">Cancelar</button>
+  </div>
+</div>
 </div>
  <script>
 document.getElementById('sbLoginBtn').addEventListener('click', loginSupabase);
