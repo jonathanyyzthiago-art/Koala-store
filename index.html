@@ -95,6 +95,13 @@ document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target==m)hide
     <button class="btn" id="sbCloseBtn" style="width:100%;margin-top:8px">Cancelar</button>
   </div>
 </div>
+ <script>
+document.getElementById('sbLoginBtn').addEventListener('click', loginSupabase);
+
+document.getElementById('sbCloseBtn').addEventListener('click', function () {
+  document.getElementById('supabaseLogin').style.display = 'none';
+});
+</script>
 <div id="adminOverlay" class="admin-overlay" style="display:none">
   <div class="admin-shell">
     <div class="admin-head">
