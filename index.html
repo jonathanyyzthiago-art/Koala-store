@@ -84,6 +84,17 @@ function saveSite(){d.name=an.value;d.insta=ai.value;d.email=ae.value;d.subtitle
 document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target==m)hide(m.id)});applySettings();render();
 </script>
 <!-- KOALA STORE — EDITOR TOTAL -->
+<div id="supabaseLogin" class="admin-overlay" style="display:none;z-index:9999;background:rgba(0,0,0,.82)">
+  <div style="max-width:420px;margin:10vh auto;background:#fff;border-radius:18px;padding:26px;box-shadow:0 20px 60px rgba(0,0,0,.35)">
+    <h2 style="margin-top:0">🔐 Login do administrador</h2>
+    <p style="color:#666">Entre com a conta de administrador da Koala Store.</p>
+    <label style="display:block;font-weight:600;margin:12px 0">E-mail<input id="sbEmail" type="email" autocomplete="username" style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:10px;margin-top:6px"></label>
+    <label style="display:block;font-weight:600;margin:12px 0">Senha<input id="sbPassword" type="password" autocomplete="current-password" style="width:100%;box-sizing:border-box;padding:12px;border:1px solid #ccc;border-radius:10px;margin-top:6px"></label>
+    <div id="sbStatus" style="min-height:20px;color:#b00020;margin:10px 0"></div>
+    <button class="btn btn-primary" id="sbLoginBtn" style="width:100%">Entrar no ADM</button>
+    <button class="btn" id="sbCloseBtn" style="width:100%;margin-top:8px">Cancelar</button>
+  </div>
+</div>
 <div id="adminOverlay" class="admin-overlay" style="display:none">
   <div class="admin-shell">
     <div class="admin-head">
@@ -285,7 +296,7 @@ document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target==m)hide
       </main>
     </div>
     <div class="admin-foot">
-      <span id="adminStatus">Pronto.</span>
+      <span id="adminStatus">Pronto.</span><button class="btn" onclick="logoutAdmin()">Sair</button>
       <button class="btn btn-primary" onclick="saveAllAdmin()">💾 Salvar tudo</button>
     </div>
   </div>
@@ -315,9 +326,16 @@ document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target==m)hide
 @media(max-width:800px){.admin-tabs{width:155px}.grid2,.color-grid{grid-template-columns:1fr}.admin-content{padding:15px}}
 </style>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
 <script>
 (function(){
   const K='koala_admin_total_v1';
+  const SB_URL=(window.KOALA_SUPABASE_URL||'').trim();
+  const SB_KEY=(window.KOALA_SUPABASE_KEY||'').trim();
+  const SB_ENABLED=!!(SB_URL&&SB_KEY&&window.supabase);
+  const sb=SB_ENABLED?window.supabase.createClient(SB_URL,SB_KEY):null;
+  let sbSession=null;
   const defaults={
     storeName:'Koala Store',subtitle:'Sua loja online',email:'',instagram:'',
     description:'Qualidade, estilo e confiança.',announcement:'Bem-vindo à Koala Store!',
@@ -336,16 +354,41 @@ document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target==m)hide
   let productImage='';
 
   function load(){try{return Object.assign({},defaults,JSON.parse(localStorage.getItem(K)||'{}'))}catch(e){return {...defaults}}}
-  function save(){localStorage.setItem(K,JSON.stringify(cfg));}
+  function save(){localStorage.setItem(K,JSON.stringify(cfg)); if(SB_ENABLED&&sbSession) saveCloud().catch(e=>console.error('Supabase:',e));}
   function q(id){return document.getElementById(id)}
   function set(id,v){if(q(id))q(id).value=v??''}
   function check(id,v){if(q(id))q(id).checked=!!v}
   function msg(t){if(q('adminStatus'))q('adminStatus').textContent=t}
 
-  window.openAdmin=function(){
-    q('adminOverlay').style.display='block'; fill(); msg('Painel aberto.')
+  window.openAdmin=async function(){
+    if(!SB_ENABLED){ q('adminOverlay').style.display='block'; fill(); msg('Modo local: configure o Supabase para proteger o ADM.'); return; }
+    const {data}=await sb.auth.getSession();
+    sbSession=data.session;
+    if(sbSession){ await loadCloud(); q('adminOverlay').style.display='block'; fill(); msg('ADM conectado ao Supabase.'); }
+    else { q('supabaseLogin').style.display='block'; q('sbEmail').focus(); }
   };
-  window.closeAdmin=function(){q('adminOverlay').style.display='none'};
+  async function loadCloud(){
+    if(!SB_ENABLED||!sbSession)return;
+    const {data,error}=await sb.from('store_config').select('data').eq('user_id',sbSession.user.id).maybeSingle();
+    if(!error&&data?.data){ cfg=Object.assign({},defaults,data.data); save(); }
+  }
+  async function saveCloud(){
+    if(!SB_ENABLED||!sbSession)return;
+    const {error}=await sb.from('store_config').upsert({user_id:sbSession.user.id,data:cfg,updated_at:new Date().toISOString()});
+    if(error) throw error;
+  }
+  async function loginSupabase(){
+    const email=q('sbEmail').value.trim(), password=q('sbPassword').value;
+    q('sbStatus').textContent='Entrando...';
+    const {data,error}=await sb.auth.signInWithPassword({email,password});
+    if(error){q('sbStatus').textContent='E-mail ou senha inválidos.';return;}
+    sbSession=data.session; q('supabaseLogin').style.display='none'; await loadCloud(); q('adminOverlay').style.display='block'; fill(); msg('Login realizado.');
+  }
+  q('sbLoginBtn')?.addEventListener('click',loginSupabase);
+  q('sbCloseBtn')?.addEventListener('click',()=>q('supabaseLogin').style.display='none');
+  q('sbPassword')?.addEventListener('keydown',e=>{if(e.key==='Enter')loginSupabase()});
+  window.logoutAdmin=async function(){if(SB_ENABLED)await sb.auth.signOut();sbSession=null;q('adminOverlay').style.display='none';};
+    window.closeAdmin=function(){q('adminOverlay').style.display='none'};
 
   function fill(){
     const a=cfg;
