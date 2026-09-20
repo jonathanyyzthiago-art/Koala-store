@@ -366,7 +366,13 @@ document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target==m)hide
   function msg(t){if(q('adminStatus'))q('adminStatus').textContent=t}
 
   window.openAdmin=async function(){
-    if(!SB_ENABLED){ q('adminOverlay').style.display='block'; fill(); msg('Modo local: configure o Supabase para proteger o ADM.'); return; }
+  if(!SB_ENABLED){
+  q('supabaseLogin').style.display='block';
+  q('adminOverlay').style.display='none';
+  q('sbStatus').textContent='Configure o Supabase para entrar no painel.';
+  q('sbEmail').focus();
+  return;
+}
     const {data}=await sb.auth.getSession();
     sbSession=data.session;
     if(sbSession){ await loadCloud(); q('adminOverlay').style.display='block'; fill(); msg('ADM conectado ao Supabase.'); }
