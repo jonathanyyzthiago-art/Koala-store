@@ -1,0 +1,28 @@
+KOALA STORE PRO — PAINEL COMPLETO
+
+Abra index.html no Chrome/Opera.
+
+PAINEL ADMIN:
+Ctrl + Shift + A
+
+Agora o painel permite editar:
+- Dados da loja
+- Cores do site
+- Arredondamento
+- Elementos visíveis
+- Textos e avisos
+- Banner
+- Produtos, preços, categorias, descrições e emojis
+- Categorias
+- Avaliações/depoimentos
+- Menu
+- Rodapé e copyright
+- Instagram, Facebook, YouTube, TikTok, WhatsApp e suporte
+- Checkout e chave Pix visual
+- Backup e restauração
+
+LOGO/BANNER:
+Substitua logo.jpg e banner.jpg mantendo os nomes.
+
+IMPORTANTE:
+Esta é uma loja front-end. Para vender de verdade ainda é necessário conectar banco de dados, autenticação, gateway de pagamento, pedidos e entrega automática.
