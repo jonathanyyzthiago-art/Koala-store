@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Koala Store</title>
+<meta name="description" content="Koala Store — produtos digitais">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase-config.js"></script>
+<style>
+:root{
+  --bg:#07070a;--surface:#101014;--surface2:#15151b;--line:#292932;
+  --text:#f6f6fa;--muted:#9b9ba8;--blue:#1677ff;--blue2:#34a0ff;
+  --shadow:0 18px 50px rgba(0,0,0,.38);--radius:16px;
+}
+html.light{--bg:#f5f8fc;--surface:#fff;--surface2:#eef3f9;--line:#d8e0ea;--text:#10141b;--muted:#657182;--shadow:0 14px 40px rgba(30,60,100,.12)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:42px 42px}
+a{text-decoration:none;color:inherit}
+button,input,textarea{font:inherit}
+.wrap{width:min(1180px,92%);margin:auto}
+.top{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+.nav{height:76px;display:flex;align-items:center;gap:22px}
+.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:900}
+.brand img{width:42px;height:42px;border-radius:12px;object-fit:cover}
+.links{display:flex;gap:20px;color:var(--muted);font-weight:700}
+.links a:hover{color:var(--text)}
+.right{margin-left:auto;display:flex;gap:8px}
+.iconbtn,.btn{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:12px;padding:10px 13px;font-weight:800;cursor:pointer}
+.primary{background:linear-gradient(135deg,var(--blue),var(--blue2));border:0;color:#fff}
+.hero{padding:28px 0 10px}
+.banner{overflow:hidden;border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow)}
+.banner img{width:100%;display:block;aspect-ratio:16/6.5;object-fit:cover}
+.section{padding:34px 0 4px}
+.head{display:flex;align-items:end;justify-content:space-between;gap:15px;margin-bottom:18px}
+.head h2{font-size:28px;margin:0}
+.head p{margin:5px 0 0;color:var(--muted)}
+.searchrow{display:flex;gap:10px;margin:24px 0 4px}
+.search{flex:1;display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:var(--surface);border-radius:13px;padding:0 13px}
+.search input{width:100%;padding:13px 0;background:none;border:0;outline:0;color:var(--text)}
+.chips{display:flex;gap:8px;overflow:auto;padding-bottom:2px}
+.chip{white-space:nowrap}
+.categories{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+.category-card{position:relative;min-height:360px;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:#111;cursor:pointer;box-shadow:var(--shadow);transform:translateY(28px);opacity:0;transition:transform .75s cubic-bezier(.2,.8,.2,1),opacity .75s,border-color .25s}
+.category-card.show{transform:none;opacity:1}
+.category-card:hover{border-color:var(--blue2);transform:translateY(-6px) scale(1.01)}
+.category-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.category-card:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 28%,rgba(0,0,0,.15) 45%,rgba(0,0,0,.92) 100%)}
+.category-label{position:absolute;z-index:2;left:22px;right:22px;bottom:20px;font-size:30px;font-weight:950;letter-spacing:-.5px}
+.category-label small{display:block;color:#fff8;font-size:15px;font-weight:700;margin-top:2px}
+.subscription-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.product{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 10px 28px rgba(0,0,0,.18);transform:translateY(34px);opacity:0;transition:transform .7s cubic-bezier(.2,.8,.2,1),opacity .7s,border-color .2s}
+.product.show{transform:none;opacity:1}
+.product:hover{border-color:var(--blue2)}
+.product-img{width:100%;aspect-ratio:1.78;object-fit:cover;display:block;background:linear-gradient(135deg,#0b2b5a,#07101c)}
+.product-body{padding:12px}
+.product-title{font-size:16px;font-weight:850;line-height:1.2;min-height:38px}
+.price{font-size:18px;font-weight:950;margin-top:8px}
+.pix{color:var(--muted);font-size:14px;margin-top:3px}
+.buy{width:100%;margin-top:12px;background:linear-gradient(135deg,var(--blue),#005fe0);color:#fff;border:0;border-radius:9px;padding:11px;font-weight:950;cursor:pointer}
+.buy:hover{filter:brightness(1.08)}
+.more-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.simple-card{padding:20px;background:var(--surface);border:1px solid var(--line);border-radius:16px;cursor:pointer}
+.simple-card:hover{border-color:var(--blue2)}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.review{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
+.review img{width:58px;height:58px;border-radius:12px;object-fit:cover;display:block;margin-bottom:10px}
+.stars{color:#58aaff;letter-spacing:2px}
+.support{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:24px;background:linear-gradient(135deg,var(--surface),var(--surface2));border:1px solid var(--line);border-radius:20px}
+footer{margin-top:50px;border-top:1px solid var(--line);padding:30px 0;color:var(--muted)}
+.foot{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.hidden{display:none!important}
+
+/* modals/admin */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:100;padding:15px;align-items:center;justify-content:center}
+.modal.open{display:flex}
+.modalbox{width:min(820px,100%);max-height:92vh;overflow:auto;background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:0 30px 90px #000b}
+.close{float:right;border:0;background:none;color:var(--muted);font-size:30px;cursor:pointer}
+.adminnav{display:flex;gap:8px;flex-wrap:wrap;margin:16px 0}
+.adminnav button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.formgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.field,.area{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:11px}
+.area{min-height:90px;resize:vertical}
+.admin-section{border-top:1px solid var(--line);padding-top:18px;margin-top:18px}
+.listrow{display:flex;gap:10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.listrow img{width:70px;height:50px;object-fit:cover;border-radius:8px}
+.preview{max-width:180px;max-height:120px;object-fit:cover;border-radius:10px;margin-top:8px}
+.admin-status{color:var(--muted);min-height:20px;margin-top:10px}
+.toggle{display:flex;align-items:center;gap:9px;margin:8px 0}
+@media(max-width:850px){.links{display:none}.categories{grid-template-columns:1fr}.more-grid{grid-template-columns:repeat(2,1fr)}.reviews{grid-template-columns:1fr}}
+@media(max-width:560px){.nav{height:68px}.brand b{font-size:18px}.right .loginBtn{display:none}.hero{padding-top:16px}.banner img{aspect-ratio:16/8}.section{padding-top:26px}.head h2{font-size:24px}.category-card{min-height:300px}.category-label{font-size:25px}.subscription-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.product-body{padding:9px}.product-title{font-size:14px;min-height:34px}.price{font-size:16px}.pix{font-size:12px}.buy{padding:10px 5px;font-size:13px}.formgrid{grid-template-columns:1fr}.support{grid-template-columns:1fr}.more-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="#inicio"><img id="logo" src="logo.jpg" alt="Koala Store"><b id="brandName">Koala Store</b></a>
+    <nav class="links">
+      <a href="#inicio">Início</a><a href="#categorias">Categorias</a><a href="#assinaturas">Assinaturas</a><a href="#produtos">Produtos</a><a href="#avaliacoes">Avaliações</a><a href="#suporte">Suporte</a>
+    </nav>
+    <div class="right">
+      <button class="iconbtn" id="themeBtn" title="Modo claro/escuro">☀️</button>
+      <button class="iconbtn loginBtn" onclick="openAdmin()">⚙️</button>
+      <button class="btn primary" onclick="openCart()">🛒 <span id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="inicio">
+  <section class="hero"><div class="banner"><img id="banner" src="banner.jpg" alt="Koala Store"></div></section>
+
+  <section class="section" id="categorias">
+    <div class="head"><div><h2>Categorias populares</h2><p>Encontre rapidamente o que procura.</p></div></div>
+    <div class="categories">
+      <article class="category-card reveal" data-cat="Assinaturas"><img id="catImg1" src="category_assinaturas.jpg" alt="Assinaturas"><div class="category-label">Assinaturas<small>Streaming e serviços</small></div></article>
+      <article class="category-card reveal" data-cat="Discord"><img id="catImg2" src="category_discord.jpg" alt="Discord"><div class="category-label">Discord<small>Produtos e acessos</small></div></article>
+    </div>
+  </section>
+
+  <section class="section" id="assinaturas">
+    <div class="head"><div><h2>Assinaturas</h2><p>Escolha sua assinatura e compre rapidamente.</p></div></div>
+    <div class="subscription-grid" id="subscriptionGrid"></div>
+  </section>
+
+  <section class="section" id="produtos">
+    <div class="head"><div><h2>Produtos</h2><p>Confira os produtos disponíveis na Koala Store.</p></div></div>
+    <div class="searchrow"><label class="search">🔎 <input id="search" placeholder="Pesquisar produtos..."></label></div>
+    <div class="chips" id="chips"></div>
+    <div class="subscription-grid" id="productGrid" style="margin-top:14px"></div>
+  </section>
+
+  <section class="section" id="avaliacoes">
+    <div class="head"><div><h2>Avaliações</h2><p>Experiências de clientes da Koala Store.</p></div></div>
+    <div class="reviews" id="reviews"></div>
+  </section>
+
+  <section class="section" id="suporte">
+    <div class="support">
+      <div><h2 style="margin:0 0 5px">Precisa de ajuda?</h2><p style="margin:0;color:var(--muted)" id="supportText">Fale com nossa equipe pelo Discord.</p></div>
+      <a class="btn primary" id="discordBtn" href="#" target="_blank" rel="noopener">💬 Falar no Discord</a>
+    </div>
+  </section>
+</main>
+
+<footer><div class="wrap foot"><div><b id="footerName">Koala Store</b><br><span id="footerDesc">Produtos digitais com entrega rápida.</span></div><div id="footerSocial">Discord • Instagram</div><div id="copyright">© 2026 Koala Store</div></div></footer>
+
+<div class="modal" id="cartModal"><div class="modalbox"><button class="close" onclick="closeModal('cartModal')">×</button><h2>Seu carrinho</h2><div id="cartItems"></div><div style="font-size:20px;font-weight:900;margin:14px 0">Total: <span id="cartTotal">R$ 0,00</span></div><button class="btn primary" style="width:100%" onclick="checkout()">Finalizar pedido</button></div></div>
+
+<div class="modal" id="adminModal"><div class="modalbox">
+<button class="close" onclick="closeModal('adminModal')">×</button>
+<div id="adminLogin">
+<h2>Painel da Koala Store</h2><p style="color:var(--muted)">Entre com o usuário do Supabase para editar a loja.</p>
+<input id="adminEmail" class="field" placeholder="E-mail">
+<input id="adminPassword" class="field" type="password" placeholder="Senha" style="margin-top:9px">
+<button class="btn primary" style="width:100%;margin-top:10px" onclick="adminLogin()">Entrar no painel</button>
+<div class="admin-status" id="loginStatus"></div>
+</div>
+<div id="adminPanel" class="hidden">
+<h2>Painel administrativo</h2>
+<div class="adminnav">
+<button data-tab="page" onclick="showTab('page')">🏪 Página</button>
+<button data-tab="colors" onclick="showTab('colors')">🎨 Cores</button>
+<button data-tab="products" onclick="showTab('products')">📦 Produtos</button>
+<button data-tab="categories" onclick="showTab('categories')">🖼️ Categorias</button>
+<button data-tab="social" onclick="showTab('social')">📱 Redes</button>
+<button data-tab="reviews" onclick="showTab('reviews')">⭐ Avaliações</button>
+</div>
+<div id="adminContent"></div>
+<div class="admin-status" id="adminStatus"></div>
+<button class="btn" onclick="adminLogout()">Sair</button>
+</div></div></div>
+
+<script>
+const DEFAULTS={
+ name:"Koala Store",desc:"Produtos digitais com entrega rápida.",discord:"https://discord.gg/",instagram:"@koalastore",
+ logo:"",banner:"",categoryImages:{Assinaturas:"category_assinaturas.jpg",Discord:"category_discord.jpg"},
+ colors:{blue:"#1677ff",blue2:"#34a0ff"},theme:"dark",
+ products:[
+  {name:"Spotify Premium Renovação Automática",cat:"Assinaturas",price:16,img:"sub_spotify.jpg",desc:"Assinatura digital conforme a descrição."},
+  {name:"NETFLIX",cat:"Assinaturas",price:2,img:"sub_netflix.jpg",desc:"Acesso digital conforme a descrição."},
+  {name:"DISNEY PLUS",cat:"Assinaturas",price:7,img:"sub_disney.jpg",desc:"Assinatura digital."},
+  {name:"Prime Video",cat:"Assinaturas",price:2,img:"sub_prime.jpg",desc:"Assinatura digital."},
+  {name:"Crunchyroll",cat:"Assinaturas",price:2,img:"sub_crunchyroll.jpg",desc:"Assinatura digital."},
+  {name:"Xbox GamePass Ultimate",cat:"Assinaturas",price:5.5,img:"sub_xbox.jpg",desc:"Assinatura digital."},
+  {name:"HBO Max",cat:"Assinaturas",price:5,img:"sub_hbo.jpg",desc:"Assinatura digital."},
+  {name:"Paramount+",cat:"Assinaturas",price:5,img:"sub_paramount.jpg",desc:"Assinatura digital."}
+ ],
+ reviews:[]
+};
+let cfg=loadCfg(),cart=JSON.parse(localStorage.getItem("koala_cart_v7")||"[]"),activeCat="Todos",session=null;
+
+function loadCfg(){try{return Object.assign({},DEFAULTS,JSON.parse(localStorage.getItem("koala_v7")||"{}"))}catch(e){return structuredClone(DEFAULTS)}}
+function saveCfg(){localStorage.setItem("koala_v7",JSON.stringify(cfg)); syncCloud()}
+function money(v){return "R$ "+Number(v||0).toFixed(2).replace(".",",")}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+function imageSrc(x,fallback){return x&&x.startsWith("data:")?x:(x||fallback)}
+function applyTheme(){document.documentElement.classList.toggle("light",cfg.theme==="light");document.getElementById("themeBtn").textContent=cfg.theme==="light"?"🌙":"☀️"}
+document.getElementById("themeBtn").onclick=()=>{cfg.theme=cfg.theme==="light"?"dark":"light";saveCfg();applyTheme()}
+function setup(){
+ document.getElementById("brandName").textContent=cfg.name; document.getElementById("footerName").textContent=cfg.name;
+ document.getElementById("footerDesc").textContent=cfg.desc; document.getElementById("discordBtn").href=cfg.discord||"#";
+ document.getElementById("footerSocial").textContent=(cfg.instagram||"@koalastore")+" • Discord";
+ if(cfg.logo)document.getElementById("logo").src=cfg.logo;if(cfg.banner)document.getElementById("banner").src=cfg.banner;
+ document.getElementById("catImg1").src=imageSrc(cfg.categoryImages.Assinaturas,"category_assinaturas.jpg");
+ document.getElementById("catImg2").src=imageSrc(cfg.categoryImages.Discord,"category_discord.jpg");
+ document.documentElement.style.setProperty("--blue",cfg.colors.blue);document.documentElement.style.setProperty("--blue2",cfg.colors.blue2);
+ applyTheme();renderAll();
+}
+function renderAll(){renderSubscriptions();renderProducts();renderReviews();renderCart()}
+function card(p,i){
+ return `<article class="product reveal"><img class="product-img" src="${imageSrc(p.img,"category_assinaturas.jpg")}" alt="${esc(p.name)}"><div class="product-body"><div class="product-title">${esc(p.name)}</div><div class="price">${money(p.price)}+</div><div class="pix">À vista no Pix</div><button class="buy" onclick="addCart(${i})">🛒 Comprar agora</button></div></article>`
+}
+function renderSubscriptions(){
+ const arr=cfg.products.filter(p=>p.cat==="Assinaturas");document.getElementById("subscriptionGrid").innerHTML=arr.map((p,i)=>card(p,cfg.products.indexOf(p))).join("");
+ observeReveals();
+}
+function renderProducts(){
+ const q=document.getElementById("search").value.toLowerCase(), cats=["Todos",...new Set(cfg.products.map(p=>p.cat))];
+ document.getElementById("chips").innerHTML=cats.map(c=>`<button class="iconbtn chip ${c===activeCat?"primary":""}" onclick="activeCat='${esc(c)}';renderProducts()">${esc(c)}</button>`).join("");
+ const arr=cfg.products.filter(p=>(activeCat==="Todos"||p.cat===activeCat)&&(!q||p.name.toLowerCase().includes(q)||p.cat.toLowerCase().includes(q)));
+ document.getElementById("productGrid").innerHTML=arr.map(p=>card(p,cfg.products.indexOf(p))).join("");observeReveals();
+}
+document.getElementById("search").addEventListener("input",renderProducts);
+document.querySelectorAll(".category-card").forEach(el=>el.addEventListener("click",()=>{activeCat=el.dataset.cat;document.getElementById("produtos").scrollIntoView();renderProducts()}));
+function observeReveals(){
+ const els=document.querySelectorAll(".reveal:not(.show)");
+ const io=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add("show");io.unobserve(e.target)}}),{threshold:.12});
+ els.forEach(e=>io.observe(e));
+}
+function renderReviews(){
+ const el=document.getElementById("reviews");el.innerHTML=(cfg.reviews||[]).length?cfg.reviews.map(r=>`<article class="review">${r.img?`<img src="${r.img}" alt="">`:""}<div class="stars">★★★★★</div><b>${esc(r.name)}</b><p>${esc(r.text)}</p></article>`).join(""):`<article class="review"><div class="stars">★★★★★</div><b>Koala Store</b><p>As avaliações dos clientes aparecerão aqui.</p></article>`;
+}
+function addCart(i){cart.push({...cfg.products[i],id:Date.now()+Math.random()});localStorage.setItem("koala_cart_v7",JSON.stringify(cart));renderCart();openCart()}
+function renderCart(){document.getElementById("cartCount").textContent=cart.length;let total=cart.reduce((s,p)=>s+Number(p.price||0),0);document.getElementById("cartTotal").textContent=money(total);document.getElementById("cartItems").innerHTML=cart.length?cart.map((p,i)=>`<div class="listrow"><img src="${imageSrc(p.img,"category_assinaturas.jpg")}"><div style="flex:1"><b>${esc(p.name)}</b><br>${money(p.price)}</div><button class="btn" onclick="cart.splice(${i},1);localStorage.setItem('koala_cart_v7',JSON.stringify(cart));renderCart()">×</button></div>`).join(""):"Seu carrinho está vazio."}
+function openCart(){document.getElementById("cartModal").classList.add("open")}
+function closeModal(id){document.getElementById(id).classList.remove("open")}
+function checkout(){if(!cart.length)return;const text="Olá! Quero comprar:%0A"+cart.map(p=>`• ${encodeURIComponent(p.name)} — ${money(p.price)}`).join("%0A");if(cfg.discord&&cfg.discord.startsWith("http"))window.open(cfg.discord,"_blank");else alert("Configure o Discord no painel.")}
+function openAdmin(){document.getElementById("adminModal").classList.add("open");if(session)showAdminPanel()}
+function adminLogin(){
+ const email=document.getElementById("adminEmail").value.trim(),password=document.getElementById("adminPassword").value;
+ if(!window.supabaseClient){document.getElementById("loginStatus").textContent="Configure o supabase-config.js primeiro.";return}
+ document.getElementById("loginStatus").textContent="Entrando...";
+ window.supabaseClient.auth.signInWithPassword({email,password}).then(async({data,error})=>{
+  if(error){document.getElementById("loginStatus").textContent="E-mail ou senha inválidos.";return}
+  session=data.session;await loadCloud();showAdminPanel();
+ })
+}
+function showAdminPanel(){document.getElementById("adminLogin").classList.add("hidden");document.getElementById("adminPanel").classList.remove("hidden");showTab("page")}
+async function adminLogout(){if(window.supabaseClient)await window.supabaseClient.auth.signOut();session=null;document.getElementById("adminLogin").classList.remove("hidden");document.getElementById("adminPanel").classList.add("hidden")}
+async function loadCloud(){if(!window.supabaseClient||!session)return;const {data,error}=await window.supabaseClient.from("store_config").select("data").eq("user_id",session.user.id).maybeSingle();if(!error&&data?.data){cfg=Object.assign({},DEFAULTS,data.data);localStorage.setItem("koala_v7",JSON.stringify(cfg));setup()}}
+let syncTimer;async function syncCloud(){clearTimeout(syncTimer);syncTimer=setTimeout(async()=>{if(!window.supabaseClient||!session)return;await window.supabaseClient.from("store_config").upsert({user_id:session.user.id,data:cfg,updated_at:new Date().toISOString()})},500)}
+function showTab(tab){
+ document.querySelectorAll(".adminnav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===tab));
+ const c=document.getElementById("adminContent");
+ if(tab==="page")c.innerHTML=`<div class="admin-section"><h3>Editar página</h3><div class="formgrid"><input id="pname" class="field" value="${esc(cfg.name)}" placeholder="Nome da loja"><input id="pdesc" class="field" value="${esc(cfg.desc)}" placeholder="Descrição"><input id="pdiscord" class="field" value="${esc(cfg.discord)}" placeholder="Link do Discord"><input id="pinsta" class="field" value="${esc(cfg.instagram)}" placeholder="Instagram"></div><button class="btn primary" onclick="savePage()">Salvar</button><div class="admin-section"><h3>Logo e banner</h3><input class="field" type="file" accept="image/*" onchange="fileToData(this,'logo')"><input class="field" type="file" accept="image/*" onchange="fileToData(this,'banner')"></div></div>`;
+ if(tab==="colors")c.innerHTML=`<div class="admin-section"><h3>🎨 Paleta de cor</h3><div class="formgrid"><label>Azul principal<input id="blue" class="field" type="color" value="${cfg.colors.blue}"></label><label>Azul secundário<input id="blue2" class="field" type="color" value="${cfg.colors.blue2}"></label></div><button class="btn primary" onclick="saveColors()">Salvar cores</button><div class="admin-section"><button class="btn" onclick="cfg.theme=cfg.theme==='light'?'dark':'light';saveCfg();applyTheme()">Alternar modo claro/escuro</button></div></div>`;
+ if(tab==="categories")c.innerHTML=`<div class="admin-section"><h3>🖼️ Imagens das categorias</h3><p>As categorias da vitrine são somente Assinaturas e Discord.</p><label>Imagem Assinaturas<input class="field" type="file" accept="image/*" onchange="fileToData(this,'catAss')"></label><label>Imagem Discord<input class="field" type="file" accept="image/*" onchange="fileToData(this,'catDisc')"></label></div>`;
+ if(tab==="products")c.innerHTML=`<div class="admin-section"><h3>📦 Adicionar produto</h3><div class="formgrid"><input id="pn" class="field" placeholder="Nome"><select id="pc" class="field"><option>Assinaturas</option><option>Discord</option></select><input id="pp" class="field" type="number" step="0.01" placeholder="Preço"></div><textarea id="pd" class="area" placeholder="Descrição"></textarea><input id="pimg" class="field" type="file" accept="image/*"><button class="btn primary" onclick="addProduct()">Adicionar produto</button></div><div class="admin-section"><h3>Produtos cadastrados</h3>${cfg.products.map((p,i)=>`<div class="listrow"><img src="${imageSrc(p.img,"category_assinaturas.jpg")}"><div style="flex:1"><b>${esc(p.name)}</b><br>${esc(p.cat)} • ${money(p.price)}</div><button class="btn" onclick="editProduct(${i})">Editar</button><button class="btn" onclick="deleteProduct(${i})">Excluir</button></div>`).join("")}</div>`;
+ if(tab==="social")c.innerHTML=`<div class="admin-section"><h3>📱 Redes e suporte</h3><label>Discord<input id="sdiscord" class="field" value="${esc(cfg.discord)}"></label><label>Instagram<input id="sinsta" class="field" value="${esc(cfg.instagram)}"></label><button class="btn primary" onclick="cfg.discord=sdiscord.value;cfg.instagram=sinsta.value;saveCfg();setup();">Salvar redes</button><p style="color:var(--muted)">Na loja, o suporte aparece como “Falar no Discord”.</p></div>`;
+ if(tab==="reviews")c.innerHTML=`<div class="admin-section"><h3>⭐ Nova avaliação</h3><input id="rn" class="field" placeholder="Nome do cliente"><textarea id="rt" class="area" placeholder="Texto da avaliação"></textarea><input id="ri" class="field" type="file" accept="image/*"><button class="btn primary" onclick="addReview()">Adicionar avaliação</button></div><div class="admin-section">${(cfg.reviews||[]).map((r,i)=>`<div class="listrow">${r.img?`<img src="${r.img}">`:""}<div style="flex:1"><b>${esc(r.name)}</b><br>${esc(r.text)}</div><button class="btn" onclick="deleteReview(${i})">Excluir</button></div>`).join("")}</div>`;
+}
+function savePage(){cfg.name=pname.value;cfg.desc=pdesc.value;cfg.discord=pdiscord.value;cfg.instagram=pinsta.value;saveCfg();setup();document.getElementById("adminStatus").textContent="Página salva."}
+function saveColors(){cfg.colors.blue=blue.value;cfg.colors.blue2=blue2.value;saveCfg();setup();document.getElementById("adminStatus").textContent="Cores salvas."}
+function fileToData(input,type){const f=input.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{if(type==="logo")cfg.logo=r.result;if(type==="banner")cfg.banner=r.result;if(type==="catAss")cfg.categoryImages.Assinaturas=r.result;if(type==="catDisc")cfg.categoryImages.Discord=r.result;saveCfg();setup();showTab(type==="catAss"||type==="catDisc"?"categories":"page")};r.readAsDataURL(f)}
+function addProduct(){const f=pimg.files[0],finish=(img)=>{cfg.products.push({name:pn.value,cat:pc.value,price:Number(pp.value||0),desc:pd.value,img:img||"category_assinaturas.jpg"});saveCfg();setup();showTab("products")};if(f){const r=new FileReader();r.onload=()=>finish(r.result);r.readAsDataURL(f)}else finish("")}
+function editProduct(i){const p=cfg.products[i],name=prompt("Nome do produto:",p.name),price=prompt("Preço:",p.price),desc=prompt("Descrição:",p.desc);if(name!==null)p.name=name;if(price!==null)p.price=Number(price)||0;if(desc!==null)p.desc=desc;saveCfg();setup();showTab("products")}
+function deleteProduct(i){if(confirm("Excluir este produto?")){cfg.products.splice(i,1);saveCfg();setup();showTab("products")}}
+function addReview(){const f=ri.files[0],finish=(img)=>{cfg.reviews=cfg.reviews||[];cfg.reviews.push({name:rn.value,text:rt.value,img:img||""});saveCfg();setup();showTab("reviews")};if(f){const r=new FileReader();r.onload=()=>finish(r.result);r.readAsDataURL(f)}else finish("")}
+function deleteReview(i){cfg.reviews.splice(i,1);saveCfg();setup();showTab("reviews")}
+window.addEventListener("DOMContentLoaded",async()=>{setup();if(window.supabaseClient){const {data}=await window.supabaseClient.auth.getSession();if(data.session){session=data.session}}});
+document.addEventListener("keydown",e=>{if(e.ctrlKey&&e.shiftKey&&e.key.toUpperCase()==="A"){e.preventDefault();openAdmin()}});
+</script>
+</body>
+</html>
