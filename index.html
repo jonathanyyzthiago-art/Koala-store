@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Koala Store</title>
+<meta name="description" content="Koala Store — produtos digitais.">
+<style>
+:root{
+  --bg:#07111f;
+  --card:#0d1b2d;
+  --card2:#10243b;
+  --border:#1d3b5c;
+  --blue:#1687ff;
+  --blue2:#18b7ff;
+  --text:#fff;
+  --muted:#9db0c5;
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:radial-gradient(circle at 50% -10%,#10345b 0,#07111f 42%,#050b14 100%);
+  color:var(--text);font-family:Arial,Helvetica,sans-serif;min-height:100vh;
+}
+a{color:inherit;text-decoration:none}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(1120px,calc(100% - 32px));margin:auto}
+.top{
+  position:sticky;top:0;z-index:1000;
+  background:rgba(5,12,22,.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(40,86,125,.55)
+}
+.nav{height:72px;display:flex;align-items:center;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;font-size:20px;font-weight:800}
+.brand-mark{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--blue),var(--blue2));font-size:23px;
+  box-shadow:0 8px 25px #1687ff44
+}
+.links{display:flex;gap:22px;margin-left:auto}
+.links a{color:#c7d5e4;font-size:14px}
+.links a:hover{color:#fff}
+.right{display:flex;gap:9px;margin-left:4px}
+.btn{
+  border:1px solid var(--border);background:#0d1a2a;color:#fff;
+  border-radius:11px;padding:10px 14px
+}
+.btn.primary{background:linear-gradient(135deg,#1178e8,#15a9ff);border-color:#2b9cff}
+.btn.full{width:100%}
+main{padding:38px 0 70px}
+.head{margin:12px 0 20px}
+.head h1,.head h2{margin:0 0 7px}
+.head p{margin:0;color:var(--muted)}
+/* Categorias compactas */
+.category-grid{
+  display:flex;align-items:flex-start;gap:18px;flex-wrap:wrap;
+  margin:22px 0 42px
+}
+.category-card{
+  width:128px;padding:0;border:0;background:none;color:#fff;
+  display:flex;flex-direction:column;align-items:center;gap:9px;
+  transition:.25s;animation:rise .55s ease both
+}
+.category-card::before{
+  content:"";display:block;width:104px;height:104px;border-radius:14px;
+  border:1px solid #24507e;
+  background:linear-gradient(145deg,#0d3d78,#07111f);
+  box-shadow:0 10px 25px #0005;transition:.25s
+}
+.category-card:hover{transform:translateY(-4px)}
+.category-card:hover::before{border-color:#278cff;box-shadow:0 14px 30px #0008}
+.category-card b{font-size:14px;line-height:1.2;text-align:center}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+.searchrow{display:flex;align-items:center;margin:0 0 20px}
+.search{
+  width:min(520px,100%);display:flex;align-items:center;gap:8px;
+  background:#0b1727;border:1px solid var(--border);border-radius:12px;padding:0 13px;color:#7f9bb6
+}
+.search input{
+  width:100%;border:0;outline:0;background:transparent;color:#fff;
+  padding:13px 4px
+}
+.grid{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;
+  margin-bottom:58px
+}
+.product{
+  background:linear-gradient(180deg,#0d1d31,#0a1625);
+  border:1px solid var(--border);border-radius:18px;overflow:hidden;
+  box-shadow:0 12px 35px #0004;transition:.25s;animation:rise .55s ease both
+}
+.product:hover{transform:translateY(-5px);border-color:#287fc0}
+.product .pic{
+  height:110px;display:grid;place-items:center;
+  background:radial-gradient(circle,#144d83,#091626 72%);
+  font-size:42px
+}
+.product .body{padding:17px}
+.badge{
+  display:inline-block;color:#7dc7ff;background:#0c3151;
+  border:1px solid #1e527d;border-radius:999px;padding:5px 9px;font-size:11px
+}
+.product h3{margin:11px 0 7px;font-size:18px}
+.desc{color:var(--muted);font-size:13px;line-height:1.5;min-height:39px}
+.price{font-size:21px;font-weight:800;margin:14px 0}
+.reviews{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:55px}
+.review{
+  background:#0b1828;border:1px solid var(--border);border-radius:16px;padding:18px
+}
+.stars{letter-spacing:2px;color:#ffd24a}
+.review p{color:#d5dfeb;line-height:1.5}
+.review small{color:var(--muted)}
+footer{border-top:1px solid var(--border);background:#050c16}
+.foot{min-height:130px;display:flex;align-items:center;justify-content:space-between;gap:25px;color:var(--muted);font-size:13px}
+.foot b{color:#fff;font-size:16px}
+.discord{display:inline-block;color:#fff;background:#5865f2;border-radius:10px;padding:10px 14px}
+.cart-modal{
+  position:fixed;inset:0;background:#0009;display:none;align-items:center;justify-content:center;
+  z-index:5000;padding:18px
+}
+.cart-box{
+  width:min(520px,100%);max-height:85vh;overflow:auto;background:#091625;
+  border:1px solid var(--border);border-radius:18px;padding:20px
+}
+.cart-modal.open{display:flex}
+.close{float:right;background:none;border:0;color:#b9c8d8;font-size:28px}
+.cart-item{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #17304a}
+.qty{display:flex;align-items:center;gap:7px}
+.qty button{width:30px;height:30px;border:1px solid var(--border);background:#10243a;color:#fff;border-radius:8px}
+.total{font-size:20px;font-weight:800;margin:18px 0}
+.snow-layer{
+  position:fixed;inset:0;pointer-events:none;z-index:9000;overflow:hidden
+}
+.snowflake{
+  position:absolute;top:-12px;border-radius:50%;background:#fff;
+  filter:drop-shadow(0 0 4px rgba(255,255,255,.45));
+  animation:snowfall linear infinite
+}
+@keyframes snowfall{
+  0%{transform:translate3d(0,-15px,0)}
+  50%{transform:translate3d(25px,50vh,0)}
+  100%{transform:translate3d(-20px,110vh,0)}
+}
+@media(max-width:850px){
+  .links{display:none}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .reviews{grid-template-columns:1fr}
+  .foot{flex-direction:column;align-items:flex-start;padding:25px 0}
+}
+@media(max-width:520px){
+  .wrap{width:min(100% - 22px,1120px)}
+  .nav{height:64px}
+  .right .login{display:none}
+  .grid{grid-template-columns:1fr}
+  .category-grid{gap:13px}
+  .category-card{width:112px}
+  .category-card::before{width:88px;height:88px}
+}
+</style>
+</head>
+<body>
+
+<div class="snow-layer" id="snowLayer" aria-hidden="true"></div>
+
+<header class="top">
+  <div class="wrap nav">
+    <a class="brand" href="#inicio">
+      <span class="brand-mark">🐨</span>
+      <span>Koala Store</span>
+    </a>
+    <nav class="links">
+      <a href="#inicio">Início</a>
+      <a href="#categorias">Categorias</a>
+      <a href="#produtos">Produtos</a>
+      <a href="#avaliacoes">Avaliações</a>
+      <a href="#suporte">Suporte</a>
+    </nav>
+    <div class="right">
+      <button class="btn primary" onclick="openCart()">🛒 Carrinho (<span id="qty">0</span>)</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="inicio">
+
+  <!-- CATEGORIAS PRIMEIRO -->
+  <section id="categorias">
+    <div class="head">
+      <h2>Categorias populares</h2>
+      <p>Encontre rapidamente o que procura.</p>
+    </div>
+    <div class="category-grid">
+      <button class="category-card" onclick="filterCategory('Assinaturas')">
+        <b>Assinaturas</b>
+      </button>
+      <button class="category-card" onclick="filterCategory('Discord')">
+        <b>Discord</b>
+      </button>
+    </div>
+  </section>
+
+  <!-- PRODUTOS DEPOIS -->
+  <section id="produtos">
+    <div class="searchrow">
+      <label class="search">🔎
+        <input id="search" type="search" placeholder="Pesquisar produtos..." oninput="renderProducts()">
+      </label>
+    </div>
+    <div class="head">
+      <h2>Produtos</h2>
+      <p id="productSubtitle">Confira nossos produtos digitais.</p>
+    </div>
+    <div class="grid" id="products"></div>
+  </section>
+
+  <section id="avaliacoes">
+    <div class="head">
+      <h2>Depoimentos de clientes</h2>
+      <p>Experiências de quem comprou na Koala Store.</p>
+    </div>
+    <div class="reviews">
+      <div class="review"><div class="stars">★★★★★</div><p>Compra rápida e atendimento excelente.</p><small>Cliente Koala</small></div>
+      <div class="review"><div class="stars">★★★★★</div><p>Voltarei a comprar!</p><small>Cliente VIP</small></div>
+      <div class="review"><div class="stars">★★★★★</div><p>Produto recebido rapidamente.</p><small>Cliente Gamer</small></div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="suporte">
+  <div class="wrap foot">
+    <div>
+      <b>Koala Store</b><br>
+      <span>Produtos digitais com entrega rápida.</span>
+    </div>
+    <div>
+      <a class="discord" href="#" onclick="return false">💬 Falar no Discord</a>
+    </div>
+    <div>© 2026 Koala Store</div>
+  </div>
+</footer>
+
+<div class="cart-modal" id="cartModal" onclick="if(event.target===this)closeCart()">
+  <div class="cart-box">
+    <button class="close" onclick="closeCart()">×</button>
+    <h2>Seu carrinho</h2>
+    <div id="cartItems"></div>
+    <div class="total">Total: <span id="cartTotal">R$ 0,00</span></div>
+    <button class="btn primary full" onclick="checkout()">Finalizar pedido</button>
+  </div>
+</div>
+
+<script>
+/*
+=========================================================
+EDITAR PRODUTOS AQUI
+- name: nome
+- category: Assinaturas ou Discord
+- price: preço em número
+- icon: emoji/ícone do produto
+- description: descrição
+NÃO HÁ IMAGENS NOS PRODUTOS.
+=========================================================
+*/
+const productsData = [
+  {
+    name:"Assinatura Premium",
+    category:"Assinaturas",
+    price:19.90,
+    icon:"👑",
+    description:"Acesso digital conforme a descrição."
+  },
+  {
+    name:"Assinatura VIP",
+    category:"Assinaturas",
+    price:29.90,
+    icon:"💎",
+    description:"Produto digital com entrega rápida."
+  },
+  {
+    name:"Discord Premium",
+    category:"Discord",
+    price:14.90,
+    icon:"💬",
+    description:"Acesso digital para sua comunidade."
+  }
+];
+
+let activeCategory = "";
+let cart = JSON.parse(localStorage.getItem("koala_cart_v4") || "[]");
+
+function money(v){
+  return Number(v).toLocaleString("pt-BR",{style:"currency",currency:"BRL"});
+}
+function esc(v){
+  return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+}
+function renderProducts(){
+  const q = document.getElementById("search").value.trim().toLowerCase();
+  const list = productsData.filter(p =>
+    (!activeCategory || p.category === activeCategory) &&
+    (!q || p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
+  );
+  document.getElementById("products").innerHTML = list.map((p,i)=>`
+    <article class="product" style="animation-delay:${i*70}ms">
+      <div class="pic">${esc(p.icon)}</div>
+      <div class="body">
+        <span class="badge">${esc(p.category)}</span>
+        <h3>${esc(p.name)}</h3>
+        <div class="desc">${esc(p.description)}</div>
+        <div class="price">${money(p.price)}</div>
+        <button class="btn primary full" onclick="addToCart(${productsData.indexOf(p)})">Adicionar ao carrinho</button>
+      </div>
+    </article>
+  `).join("") || `<p style="color:var(--muted)">Nenhum produto encontrado.</p>`;
+}
+function filterCategory(category){
+  activeCategory = activeCategory === category ? "" : category;
+  document.getElementById("search").value = "";
+  renderProducts();
+  document.getElementById("produtos").scrollIntoView({behavior:"smooth"});
+}
+function saveCart(){localStorage.setItem("koala_cart_v4",JSON.stringify(cart))}
+function addToCart(index){
+  const p=productsData[index];
+  const found=cart.find(x=>x.name===p.name);
+  if(found) found.qty++;
+  else cart.push({...p,qty:1});
+  saveCart();renderCart();openCart();
+}
+function changeQty(index,delta){
+  cart[index].qty += delta;
+  if(cart[index].qty<=0) cart.splice(index,1);
+  saveCart();renderCart();
+}
+function removeItem(index){
+  cart.splice(index,1);saveCart();renderCart();
+}
+function renderCart(){
+  document.getElementById("qty").textContent=cart.reduce((s,x)=>s+x.qty,0);
+  const box=document.getElementById("cartItems");
+  if(!cart.length){
+    box.innerHTML='<p style="color:var(--muted)">Seu carrinho está vazio.</p>';
+  }else{
+    box.innerHTML=cart.map((p,i)=>`
+      <div class="cart-item">
+        <div><b>${esc(p.name)}</b><br><small style="color:var(--muted)">${money(p.price)} cada</small></div>
+        <div class="qty">
+          <button onclick="changeQty(${i},-1)">−</button>
+          <b>${p.qty}</b>
+          <button onclick="changeQty(${i},1)">+</button>
+          <button onclick="removeItem(${i})">×</button>
+        </div>
+      </div>
+    `).join("");
+  }
+  const total=cart.reduce((s,x)=>s+x.price*x.qty,0);
+  document.getElementById("cartTotal").textContent=money(total);
+}
+function openCart(){document.getElementById("cartModal").classList.add("open");renderCart()}
+function closeCart(){document.getElementById("cartModal").classList.remove("open")}
+function checkout(){
+  if(!cart.length){alert("Seu carrinho está vazio.");return}
+  alert("Pedido pronto para finalizar. Configure o seu meio de pagamento no código quando quiser.");
+}
+
+/* Neve infinita */
+(function(){
+  const layer=document.getElementById("snowLayer");
+  for(let i=0;i<75;i++){
+    const s=document.createElement("span");
+    s.className="snowflake";
+    const size=(Math.random()*3+2).toFixed(1);
+    s.style.width=size+"px";
+    s.style.height=size+"px";
+    s.style.left=(Math.random()*100)+"%";
+    s.style.opacity=(Math.random()*0.55+0.25).toFixed(2);
+    s.style.animationDuration=(Math.random()*9+9).toFixed(1)+"s";
+    s.style.animationDelay=(-Math.random()*18).toFixed(1)+"s";
+    layer.appendChild(s);
+  }
+})();
+
+renderProducts();
+renderCart();
+</script>
+</body>
+</html>
