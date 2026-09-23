@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Koala Store</title><meta name="description" content="Koala Store - produtos digitais com entrega imediata.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="snow" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="#inicio"><div class="logo-mini drop-zone logo-zone" data-key="logo" data-label="Logo"><span>ARRASTE O ARQUIVO</span></div><strong>Koala Store</strong></a>
+    <nav class="main-nav"><a href="#inicio">Início</a><a href="#categorias">Categorias</a><a href="#produtos">Produtos</a><a href="#avaliacoes">Avaliações</a><a href="#suporte">Suporte</a></nav>
+    <div class="header-actions"><label class="search"><span>⌕</span><input id="search" placeholder="Pesquisar produtos..."></label><button class="btn" id="loginBtn">Entrar</button><button class="btn primary cart-btn" id="cartBtn">🛒 <span>Carrinho</span> (<b id="cartQty">0</b>)</button></div>
+  </div>
+</header>
+<main id="inicio">
+<section class="hero container reveal"><div class="drop-zone hero-drop" data-key="banner" data-label="Banner"><span>ARRASTE O ARQUIVO DO BANNER AQUI</span></div></section>
+<section id="categorias" class="container section reveal"><div class="section-head"><div><span class="eyebrow">EXPLORE</span><h2>Categorias populares</h2><p>Escolha uma categoria para abrir sua área de produtos.</p></div></div><div class="category-grid">
+  <button class="category-card" data-category="Assinaturas"><div class="drop-zone category-drop" data-key="cat-assinaturas" data-label="Imagem da categoria Assinaturas"><span>ARRASTE O ARQUIVO</span></div><strong>Assinaturas</strong><small>Ver produtos</small></button>
+  <button class="category-card" data-category="Discord"><div class="drop-zone category-drop" data-key="cat-discord" data-label="Imagem da categoria Discord"><span>ARRASTE O ARQUIVO</span></div><strong>Discord</strong><small>Ver produtos</small></button>
+  <button class="category-card" data-category="Jogos"><div class="drop-zone category-drop" data-key="cat-jogos" data-label="Imagem da categoria Jogos"><span>ARRASTE O ARQUIVO</span></div><strong>Jogos</strong><small>Ver produtos</small></button>
+</div></section>
+<section id="categoriaArea" class="container category-area reveal hidden"><div class="category-area-top"><div><span class="eyebrow">CATEGORIA</span><h2 id="categoryTitle">Produtos</h2><p id="categoryText">Produtos disponíveis nesta categoria.</p></div><button class="btn" id="showAll">Mostrar todos</button></div><div class="grid" id="categoryProducts"></div></section>
+<section id="produtos" class="container section reveal"><div class="section-head"><div><span class="eyebrow">LOJA</span><h2>Todos os produtos</h2><p>Escolha seu produto e adicione ao carrinho.</p></div></div><div class="grid" id="products"></div></section>
+<section id="avaliacoes" class="container section reveal"><div class="section-head"><div><span class="eyebrow">AVALIAÇÕES</span><h2>O que nossos clientes dizem</h2><p>Deixe sua avaliação diretamente no site.</p></div></div><form id="reviewForm" class="review-form"><input id="reviewName" required maxlength="40" placeholder="Seu nome"><select id="reviewStars" aria-label="Nota"><option value="5">★★★★★</option><option value="4">★★★★☆</option><option value="3">★★★☆☆</option><option value="2">★★☆☆☆</option><option value="1">★☆☆☆☆</option></select><textarea id="reviewText" required maxlength="300" placeholder="Digite sua avaliação..."></textarea><button class="btn primary" type="submit">Publicar avaliação</button></form><div class="reviews" id="reviews"></div></section>
+</main>
+<footer id="suporte" class="site-footer"><div class="container footer-inner"><div class="footer-brand"><div class="footer-brand-line"><div class="footer-logo drop-zone" data-key="footer-logo" data-label="Logo Koala"><span>ARRASTE O ARQUIVO</span></div><div><strong>Koala Store</strong><p>A loja mais confiavel de produtos digitais com entrega imediata e atendimento eficiente!</p></div></div><div class="socials"><a class="social discord" href="https://discord.gg/FJJmMAtAm" target="_blank" rel="noopener" aria-label="Discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.54 5.32A16.4 16.4 0 0 0 15.56 4l-.5 1.03a14.1 14.1 0 0 0-6.12 0L8.44 4a16.45 16.45 0 0 0-3.98 1.32C1.94 9.23 1.26 13.05 1.6 16.82a16.6 16.6 0 0 0 4.9 2.48l1.2-1.63c-.66-.25-1.29-.56-1.88-.92l.46-.35c3.63 1.7 7.8 1.7 11.4 0l.47.35c-.6.36-1.23.67-1.89.92l1.2 1.63a16.55 16.55 0 0 0 4.9-2.48c.4-4.37-.68-8.16-2.82-11.5ZM8.4 15.1c-1.08 0-1.96-1-1.96-2.23 0-1.24.87-2.24 1.96-2.24s1.97 1 1.97 2.24c0 1.23-.88 2.23-1.97 2.23Zm7.2 0c-1.08 0-1.97-1-1.97-2.23 0-1.24.88-2.24 1.97-2.24s1.96 1 1.96 2.24c0 1.23-.87 2.23-1.96 2.23Z"/></svg></a><a class="social instagram" href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" class="fill"/></svg></a></div></div><div class="copyright">© 2026 Koala Store</div></div></footer>
+<div class="support-float" title="Suporte">◉</div>
+<div class="modal" id="loginModal"><div class="modal-box"><button class="modal-close" data-close="loginModal">×</button><h2>Entrar</h2><p>Entre para continuar sua compra.</p><input placeholder="Seu e-mail"><input type="password" placeholder="Sua senha"><button class="btn primary full">Entrar</button></div></div>
+<div class="modal" id="cartModal"><div class="modal-box"><button class="modal-close" data-close="cartModal">×</button><h2>Seu carrinho</h2><div id="cartItems"></div><div class="cart-total">Total: <b id="cartTotal">R$ 0,00</b></div><button class="btn primary full" id="checkout">Continuar para compra</button></div></div>
+<script src="app.js"></script>
+</body></html>
