@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Koala Store</title><meta name="description" content="Koala Store — produtos digitais com entrega imediata.">
+<link rel="stylesheet" href="style.css">
+<script src="product-images.js"></script>
+</head>
+<body>
+<div id="snow" aria-hidden="true"></div>
+<header class="top"><div class="wrap nav">
+  <a class="brand" href="#inicio" data-home><img data-koala-image="logo" alt="Koala Store"><span>Koala Store <span class="verified">✓</span></span></a>
+  <div class="search"><span>⌕</span><input id="search" type="search" placeholder="Pesquisar produtos..." autocomplete="off"></div>
+  <div class="actions"><button class="icon-btn support-btn" id="supportBtn" aria-label="Suporte" title="Suporte">🎧</button><button class="btn" id="loginBtn">Entrar</button><button class="btn primary cart-top" id="cartBtn">🛒 <span>Carrinho</span> <b id="cartCount">0</b></button></div>
+</div></header>
+
+<main id="app">
+<section class="home-page" id="homePage">
+  <section class="hero wrap"><img data-koala-image="banner" alt="Koala Store banner"></section>
+  <section class="wrap categories-section"><div class="section-title"><h2>Categorias populares</h2><p>Escolha uma categoria para abrir sua própria página.</p></div>
+    <div class="category-grid">
+      <button class="category-card" data-category="Assinaturas"><span class="cat-art"><img data-koala-image="assinaturas" alt="Assinaturas"></span><b>Assinaturas</b></button>
+      <button class="category-card" data-category="Discord"><span class="cat-art"><img data-koala-image="discordCategory" alt="Discord"></span><b>Discord</b></button>
+      <button class="category-card" data-category="Jogos"><span class="cat-art"><img data-koala-image="texturas" alt="Jogos"></span><b>Jogos</b></button>
+    </div>
+  </section>
+  <section class="wrap products-section"><div class="section-title"><h2>Produtos</h2><p>Produtos digitais da Koala Store.</p></div><div class="product-grid" id="products"></div></section>
+  <section class="wrap reviews-section"><div class="section-title"><h2>Avaliações</h2><p>Conte para outros clientes como foi sua experiência.</p></div>
+    <form class="review-form" id="reviewForm"><input id="reviewName" placeholder="Seu nome" maxlength="40" required><select id="reviewStars" aria-label="Nota"><option value="5">★★★★★</option><option value="4">★★★★☆</option><option value="3">★★★☆☆</option><option value="2">★★☆☆☆</option><option value="1">★☆☆☆☆</option></select><textarea id="reviewText" placeholder="Escreva sua avaliação..." maxlength="500" required></textarea><button class="btn primary" type="submit">Enviar avaliação</button></form>
+    <div class="reviews-list" id="reviewsList"></div>
+  </section>
+</section>
+
+<section class="sub-page" id="categoryPage" hidden><div class="wrap"><button class="back-btn" data-home>← Voltar</button><div class="section-title"><h2 id="categoryTitle"></h2><p id="categorySubtitle"></p></div><div class="product-grid category-product-grid" id="categoryProducts"></div></div></section>
+
+<section class="checkout-page" id="checkoutPage" hidden><div class="wrap checkout-layout"><div class="checkout-main">
+  <button class="back-btn" id="checkoutBack">← Voltar ao carrinho</button>
+  <div class="section-title"><h2>Formas de pagamento</h2><p>Escolha uma forma para finalizar sua compra.</p></div>
+  <div class="payment-option selected"><img src="https://cdn.simpleicons.org/pix/32BCAD" alt="Pix"><div><strong>PIX</strong><small>Pagamento imediato</small></div><span class="fast"><b>ϟ</b> Mais rápido</span></div>
+  <div class="section-title contact-title"><h2>Informações de contato</h2></div>
+  <div class="contact-form"><label>Nome completo<input id="buyerName" autocomplete="name" placeholder="Digite seu nome completo"></label><label>Email<input id="buyerEmail" type="email" autocomplete="email" placeholder="Digite seu email"></label><div class="phone-row"><label class="country-label">País<select id="countrySelect"></select></label><label class="phone-label">Telefone<input id="buyerPhone" inputmode="tel" autocomplete="tel" placeholder="Digite seu telefone"></label></div></div>
+  <label class="terms"><input type="checkbox" id="terms"><span class="checkmark">✓</span><span>Eu aceito os <strong>Termos e condições</strong> desta compra</span></label>
+  <button class="pay-btn" id="payBtn">Pagar <span id="payAmount">R$ 0,00</span></button>
+  <div class="secure"><span>🔒</span><b>Pagamento seguro</b></div>
+  <div class="checkout-footer-copy"><div class="footer-line"><div class="footer-logo"><img data-koala-image="logo" alt="Koala Store"></div><strong>Koala Store</strong></div><p>A loja mais confiavel de produtos digitais com entrega imediata e atendimento eficiente!</p><div class="socials"><a href="https://discord.gg/FJJmMAtAm" target="_blank" rel="noopener"><img src="https://cdn.simpleicons.org/discord/5865F2" alt="Discord"></a><a href="#" onclick="return false"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram"></a></div></div>
+</div><aside class="order-summary"><h2>Resumo do pedido</h2><div class="summary-secure"><span>🔒</span><b>Pagamento seguro</b></div><div id="checkoutItems"></div><div class="sum-row"><span>Subtotal</span><strong id="checkoutSubtotal">R$ 0,00</strong></div><div class="sum-row total"><span>Total</span><strong id="checkoutTotal">R$ 0,00</strong></div></aside></div></section>
+</main>
+
+<footer id="siteFooter"><div class="wrap footer-inner"><div class="footer-brand"><div class="footer-line"><div class="footer-logo"><img data-koala-image="logo" alt="Koala Store"></div><strong>Koala Store</strong></div><p>A loja mais confiavel de produtos digitais com entrega imediata e atendimento eficiente!</p></div><div class="socials"><a href="https://discord.gg/FJJmMAtAm" target="_blank" rel="noopener" aria-label="Discord"><img src="https://cdn.simpleicons.org/discord/5865F2" alt="Discord"></a><a href="#" onclick="return false" aria-label="Instagram"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram"></a></div></div></footer>
+
+<div class="modal" id="loginModal"><div class="modal-box login-box"><button class="close" data-close="loginModal">×</button><div class="login-icon"><img data-koala-image="logo" alt="Koala"></div><h2>Entrar na Koala Store</h2><p>Escolha como deseja entrar.</p><button class="social-login discord-login" id="discordLogin"><img src="https://cdn.simpleicons.org/discord/FFFFFF" alt="Discord"><span>Discord</span></button><div class="or"><span>ou</span></div><button class="social-login google-login" id="googleLogin"><img src="https://cdn.simpleicons.org/google" alt="Google"><span>Google</span></button></div></div>
+
+<aside class="drawer" id="cartDrawer"><div class="drawer-head"><div><h2>Seu carrinho</h2><p>Confira seus produtos.</p></div><button class="close" id="closeCart">×</button></div><div class="drawer-body" id="cartItems"></div><div class="drawer-foot"><div class="cart-total"><span>Total</span><strong id="cartTotal">R$ 0,00</strong></div><button class="btn primary full" id="checkoutBtn">Finalizar compra</button></div></aside><div class="drawer-overlay" id="drawerOverlay"></div>
+
+<div class="modal" id="supportModal"><div class="modal-box support-box"><button class="close" data-close="supportModal">×</button><h2>Área de atendimentos</h2><a class="support-link" href="https://discord.gg/FJJmMAtAm" target="_blank" rel="noopener"><img src="https://cdn.simpleicons.org/discord/5865F2" alt="Discord"><span>Discord</span></a><a class="support-link" href="#" onclick="return false"><img src="https://cdn.simpleicons.org/instagram/E4405F" alt="Instagram"><span>Instagram</span></a></div></div>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+  document.querySelectorAll('[data-koala-image]').forEach(function(img){
+    var key=img.getAttribute('data-koala-image');
+    if(window.KOALA_IMAGES && window.KOALA_IMAGES[key]) img.src=window.KOALA_IMAGES[key];
+  });
+})();
+</script>
+<script src="app.js"></script>
+</body></html>
