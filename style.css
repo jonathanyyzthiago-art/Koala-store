@@ -249,3 +249,27 @@
 @media(max-width:560px){
  .top .nav .actions .search.search-expanded{flex:0 1 145px!important;width:145px!important;max-width:145px!important}
 }
+
+/* Ajuste definitivo da lupa no grupo de ações do cabeçalho */
+.actions .search.search-collapsed{
+  order:0;
+  flex:0 0 40px;
+  width:40px;
+  min-width:40px;
+  max-width:40px;
+  height:40px;
+  margin:0;
+  padding:0;
+  border-radius:12px;
+  justify-content:center;
+}
+.actions .search.search-collapsed .search-toggle{
+  width:40px;
+  height:40px;
+  border-radius:12px;
+  padding:9px;
+}
+.actions .search.search-collapsed .search-toggle svg{
+  width:22px;
+  height:22px;
+}
