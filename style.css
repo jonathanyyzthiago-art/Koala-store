@@ -325,7 +325,7 @@
 @media(max-width:560px){.testimonials-section{padding-top:24px;padding-bottom:38px}.testimonial-card{flex-basis:245px;min-height:170px}.testimonials-track{animation-duration:36s}}
 
 
-/* Fundo quadriculado gráfico com brilho azul em movimento sutil */
+/* Fundo quadriculado gráfico mais visível, mantendo a animação suave */
 body{
   position:relative;
   isolation:isolate;
@@ -338,14 +338,14 @@ body::before{
   z-index:-1;
   pointer-events:none;
   background-image:
-    linear-gradient(rgba(68,151,211,.075) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(68,151,211,.075) 1px,transparent 1px),
-    radial-gradient(circle at 18% 22%,rgba(22,135,255,.13),transparent 28%),
-    radial-gradient(circle at 82% 68%,rgba(32,217,255,.075),transparent 30%);
+    linear-gradient(rgba(83,169,235,.15) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(83,169,235,.15) 1px,transparent 1px),
+    radial-gradient(circle at 18% 22%,rgba(22,135,255,.16),transparent 28%),
+    radial-gradient(circle at 82% 68%,rgba(32,217,255,.10),transparent 30%);
   background-size:36px 36px,36px 36px,100% 100%,100% 100%;
   background-position:0 0,0 0,0 0,0 0;
   animation:koala-grid-drift 38s linear infinite;
-  opacity:.9;
+  opacity:1;
 }
 @keyframes koala-grid-drift{
   0%{background-position:0 0,0 0,0 0,0 0}
