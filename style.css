@@ -292,3 +292,6 @@
   flex:0 0 auto!important;
   justify-content:flex-end!important;
 }
+
+/* Email de contato no rodapé */
+.footer-contact{margin:5px 0 0!important;color:#aeb8c4;font-size:13px;line-height:1.5}.footer-contact span{color:#929eac}.footer-contact a{color:#e7edf5;text-decoration:none}.footer-contact a:hover{text-decoration:underline}
