@@ -211,3 +211,17 @@
 .login-btn{font-size:0}
 @media(max-width:900px){.search.search-collapsed{order:0;flex:0 0 44px;width:44px}.search.search-expanded{order:3;flex-basis:100%;max-width:none}}
 @media(max-width:560px){.actions .login-btn{font-size:0;width:40px;padding:0}.actions .login-btn:after{content:none}.search.search-expanded{order:3;flex-basis:100%;max-width:none}}
+
+
+/* Correção reforçada do cabeçalho: pesquisa fechada e botões somente com ícones */
+.top .nav .search.search-collapsed{flex:0 0 44px!important;width:44px!important;max-width:44px!important;padding:0!important;overflow:hidden}
+.top .nav .search.search-collapsed #search{display:none!important;width:0!important;opacity:0!important}
+.top .nav .search.search-collapsed .search-toggle{display:grid!important;visibility:visible!important;opacity:1!important}
+.top .nav .search.search-expanded #search{display:block!important;width:100%!important;opacity:1!important}
+.top .nav .icon-btn.support-btn,.top .nav .icon-btn.login-btn{font-size:0!important;color:#fff!important}
+.top .nav .icon-btn.support-btn svg,.top .nav .icon-btn.login-btn svg{display:block!important;width:23px!important;height:23px!important;fill:none!important;stroke:#fff!important;stroke-width:1.8!important}
+.top .nav .icon-btn.login-btn:before,.top .nav .icon-btn.login-btn:after{content:none!important;display:none!important}
+@media(max-width:900px){
+ .top .nav .search.search-collapsed{order:0!important;flex:0 0 44px!important;width:44px!important;max-width:44px!important}
+ .top .nav .search.search-expanded{order:3!important;flex:1 1 100%!important;width:100%!important;max-width:none!important}
+}
