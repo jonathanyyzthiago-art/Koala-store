@@ -298,7 +298,7 @@
 
 /* Avaliações demonstrativas em faixa horizontal animada */
 .testimonials-section{padding-top:34px;padding-bottom:54px;overflow:hidden}
-.testimonials-heading{margin-bottom:20px}
+.testimonials-heading{margin:0 auto 20px;text-align:center}.testimonials-heading .testimonials-disclaimer{display:block;margin-top:7px;color:#8293a6;font-size:10px;font-weight:400}
 .testimonials-marquee{width:100%;overflow:hidden;position:relative;padding:3px 0 12px}
 .testimonials-track{display:flex;gap:16px;width:max-content;animation:koala-reviews-scroll 42s linear infinite;will-change:transform}
 .testimonials-marquee:hover .testimonials-track{animation-play-state:paused}
