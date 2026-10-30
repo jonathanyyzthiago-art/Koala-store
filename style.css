@@ -294,4 +294,4 @@
 }
 
 /* Email de contato no rodapé */
-.footer-contact{margin:5px 0 0!important;color:#aeb8c4;font-size:13px;line-height:1.5}.footer-contact span{color:#929eac}.footer-contact a{color:#e7edf5;text-decoration:none}.footer-contact a:hover{text-decoration:underline}
+.footer-contact{margin:5px 0 0!important;color:#666f7a;font-size:13px;line-height:1.5}.footer-contact span{color:#626b76}.footer-contact a{color:#f4f7fb;font-weight:600;text-decoration:none;transition:color .2s ease}.footer-contact a:hover{color:#fff;text-decoration:underline}
