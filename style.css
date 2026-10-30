@@ -153,3 +153,23 @@
   .price{font-size:16px}
   .product-body .btn{font-size:11px;padding:9px 6px}
 }
+
+
+/* Página dedicada de autenticação */
+.login-page{min-height:calc(100vh - 74px);padding:34px 16px 70px;background:radial-gradient(ellipse at 50% 12%,rgba(22,135,255,.17),transparent 48%),linear-gradient(180deg,#071321,#050b15)}
+.login-shell{width:min(480px,100%);margin:0 auto}
+.login-back{margin:0 0 18px}
+.login-panel{position:relative;overflow:hidden;padding:38px 34px 30px;text-align:center;background:linear-gradient(155deg,rgba(13,31,51,.98),rgba(6,16,29,.99));border:1px solid rgba(48,112,157,.55);border-radius:24px;box-shadow:0 24px 75px rgba(0,0,0,.4)}
+.login-glow{position:absolute;width:230px;height:230px;top:-155px;left:calc(50% - 115px);border-radius:50%;background:#1687ff;filter:blur(85px);opacity:.35;pointer-events:none}
+.login-panel>*:not(.login-glow){position:relative}
+.login-panel .login-icon img{width:76px;height:76px;border-radius:20px;border:1px solid #2b628d;box-shadow:0 10px 30px #0005}
+.login-eyebrow{display:block;margin-top:20px;color:#52c8ff;font-size:10px;font-weight:900;letter-spacing:2px}
+.login-panel h1{margin:9px 0;font-size:29px;letter-spacing:-.8px}
+.login-description{max-width:330px;margin:0 auto 25px;color:#9db1c8;font-size:13px;line-height:1.6}
+.login-panel .social-login{height:52px;margin-top:0}
+.login-panel .or{font-size:11px;margin:18px 0}
+.login-panel .email-login{display:flex;flex-direction:row;gap:9px}
+.login-panel .email-login input{min-width:0;flex:1}
+.login-panel .email-enter{width:auto;height:48px;padding:0 20px;border-radius:11px}
+.login-note{display:block;margin-top:22px;color:#71869b;font-size:10px}
+@media(max-width:560px){.login-page{min-height:calc(100vh - 65px);padding:20px 12px 45px}.login-panel{padding:30px 20px 25px;border-radius:20px}.login-panel h1{font-size:25px}.login-panel .email-login{flex-direction:column}.login-panel .email-enter{width:100%;height:46px}}
