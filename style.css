@@ -396,3 +396,50 @@ body::before{
  .top .nav .login-btn.is-logged .account-info{display:none!important}
  .top .nav .login-btn.is-logged .account-avatar{width:34px;height:34px;flex-basis:34px}
 }
+
+
+/* Correção definitiva do campo de email no login em telas pequenas */
+@media(max-width:560px){
+  #loginPage .login-shell,
+  #loginPage .login-panel,
+  #loginPage .email-login{
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+  }
+  #loginPage .email-login{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    align-items:stretch!important;
+    justify-items:stretch!important;
+    gap:10px!important;
+  }
+  #loginPage .email-login input{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    max-width:100%!important;
+    height:54px!important;
+    min-height:54px!important;
+    flex:none!important;
+    padding:0 16px!important;
+    box-sizing:border-box!important;
+    font-size:16px!important;
+    line-height:normal!important;
+    letter-spacing:normal!important;
+    white-space:nowrap!important;
+  }
+  #loginPage .email-login input::placeholder{
+    font-size:16px!important;
+    letter-spacing:normal!important;
+    opacity:1!important;
+  }
+  #loginPage .email-login .email-enter{
+    display:block!important;
+    width:100%!important;
+    min-width:0!important;
+    height:48px!important;
+    min-height:48px!important;
+    flex:none!important;
+  }
+}
