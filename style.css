@@ -295,3 +295,18 @@
 
 /* Email de contato no rodapé */
 .footer-contact{margin:5px 0 0!important;color:#666f7a;font-size:13px;line-height:1.5}.footer-contact span{color:#626b76}.footer-contact a{color:#f4f7fb;font-weight:600;text-decoration:none;transition:color .2s ease}.footer-contact a:hover{color:#fff;text-decoration:underline}
+
+/* Avaliações demonstrativas em faixa horizontal animada */
+.testimonials-section{padding-top:34px;padding-bottom:54px;overflow:hidden}
+.testimonials-heading{margin-bottom:20px}
+.testimonials-marquee{width:100%;overflow:hidden;position:relative;padding:3px 0 12px}
+.testimonials-track{display:flex;gap:16px;width:max-content;animation:koala-reviews-scroll 42s linear infinite;will-change:transform}
+.testimonials-marquee:hover .testimonials-track{animation-play-state:paused}
+.testimonial-card{flex:0 0 280px;min-height:174px;padding:18px;background:linear-gradient(145deg,#0c1b2b,#081321);border:1px solid #1d3b55;border-radius:14px;display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.testimonial-stars{color:#ffc94a;font-size:18px;letter-spacing:2px;line-height:1}
+.testimonial-card p{margin:0;color:#dce6f0;font-size:13px;line-height:1.55;flex:1}
+.testimonial-card strong{color:#fff;font-size:13px}
+.testimonial-card small{color:#8293a6;font-size:10px}
+@keyframes koala-reviews-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(prefers-reduced-motion:reduce){.testimonials-track{animation:none}}
+@media(max-width:560px){.testimonials-section{padding-top:24px;padding-bottom:38px}.testimonial-card{flex-basis:245px;min-height:170px}.testimonials-track{animation-duration:36s}}
