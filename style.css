@@ -560,3 +560,14 @@ body::before{
 @media(prefers-reduced-motion:reduce){
   .reveal-item{transition:none!important;transform:none!important}
 }
+
+
+/* Somente a largura da vitrine de produtos no mobile; conteúdo e disposição preservados */
+@media(max-width:560px){
+  .products-section{
+    width:88%!important;
+    max-width:420px!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+  }
+}
