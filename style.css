@@ -296,6 +296,19 @@
 /* Email de contato no rodapé */
 .footer-contact{margin:5px 0 0!important;color:#666f7a;font-size:13px;line-height:1.5}.footer-contact span{color:#626b76}.footer-contact a{color:#f4f7fb;font-weight:600;text-decoration:none;transition:color .2s ease}.footer-contact a:hover{color:#fff;text-decoration:underline}
 
+/* Mantém todos os cartões de produto com a mesma altura e alinhamento */
+.product-grid{align-items:stretch!important}
+.product-grid .product-card{height:100%;display:flex;flex-direction:column}
+.product-grid .product-card .product-body{flex:1;display:flex;flex-direction:column}
+.product-grid .product-card .product-body>.btn{margin-top:auto}
+
+/* Opções de suporte em um pequeno painel ancorado abaixo do ícone */
+#supportModal.modal{inset:0;display:none;align-items:flex-start;justify-content:flex-start;padding:0;background:transparent;pointer-events:none}
+#supportModal.modal.open{display:block}
+#supportModal .support-box{position:fixed;width:min(270px,calc(100vw - 24px));margin:0;padding:17px;border-radius:16px;pointer-events:auto}
+#supportModal .support-box h2{font-size:17px;margin:2px 24px 12px 0}
+#supportModal .support-link{height:48px;margin-top:8px}
+
 /* Avaliações demonstrativas em faixa horizontal animada */
 .testimonials-section{padding-top:34px;padding-bottom:54px;overflow:hidden}
 .testimonials-heading{margin:0 auto 20px;text-align:center}.testimonials-heading .testimonials-disclaimer{display:block;margin-top:7px;color:#8293a6;font-size:10px;font-weight:400}
