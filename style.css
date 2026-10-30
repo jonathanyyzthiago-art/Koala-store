@@ -199,3 +199,15 @@
 .review-product img{width:42px;height:42px;border-radius:10px}
 .review-delete{box-shadow:0 4px 12px rgba(215,47,59,.22)}
 @media(max-width:560px){.reviews-section{margin-top:38px;padding:17px 13px;border-radius:19px}.reviews-section .section-title{margin-bottom:16px}.reviews-section .section-title h2{font-size:21px}.reviews-section .section-title h2:before{width:30px;height:30px;margin-right:7px}.review-form{padding:13px;gap:10px}.reviews-list{gap:12px;margin-top:15px}.review{padding:15px}}
+
+/* Header icon-only controls and click-to-open search */
+.search.search-collapsed{flex:0 0 44px;width:44px;max-width:44px;padding:0;justify-content:center;transition:width .22s ease,flex-basis .22s ease,padding .22s ease}
+.search.search-collapsed input{display:none}
+.search.search-expanded{flex:1 1 300px;width:min(500px,100%);max-width:500px;padding:0 13px}
+.search.search-expanded input{display:block}
+.search-toggle{width:42px;height:42px;flex:none;display:grid;place-items:center;border:0;background:transparent;color:#fff;cursor:pointer;padding:10px}
+.search-toggle svg,.support-btn svg,.login-btn svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.support-btn,.login-btn{color:#fff}
+.login-btn{font-size:0}
+@media(max-width:900px){.search.search-collapsed{order:0;flex:0 0 44px;width:44px}.search.search-expanded{order:3;flex-basis:100%;max-width:none}}
+@media(max-width:560px){.actions .login-btn{font-size:0;width:40px;padding:0}.actions .login-btn:after{content:none}.search.search-expanded{order:3;flex-basis:100%;max-width:none}}
