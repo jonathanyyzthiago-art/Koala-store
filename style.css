@@ -357,9 +357,10 @@ body::before{
 }
 
 
-/* Selo de verificação azul com acabamento profissional */
-.brand .verified{width:19px;height:19px;vertical-align:-3px;fill:#1687ff;stroke:none;display:inline-block}
-.brand .verified-check{fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+/* Selo de verificação azul, alinhado ao texto da marca */
+.brand>span{display:inline-flex;align-items:center;gap:6px}
+.brand .verified{position:relative;display:inline-flex;flex:0 0 18px;width:18px;height:18px;min-width:18px;min-height:18px;box-sizing:border-box;align-items:center;justify-content:center;vertical-align:middle;border-radius:50%;background:#1687ff;overflow:hidden}
+.brand .verified::after{content:"";display:block;width:8px;height:4px;border-left:2px solid #fff;border-bottom:2px solid #fff;transform:translateY(-1px) rotate(-45deg);box-sizing:content-box}
 
 /* Campo de email: altura e alinhamento consistentes no celular */
 @media(max-width:560px){
