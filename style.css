@@ -301,12 +301,12 @@
 .testimonials-heading{margin:0 auto 20px;text-align:center}.testimonials-heading .testimonials-disclaimer{display:block;margin-top:7px;color:#8293a6;font-size:10px;font-weight:400}
 .testimonials-marquee{width:100%;overflow:hidden;position:relative;padding:3px 0 12px}
 .testimonials-track{display:flex;gap:16px;width:max-content;animation:koala-reviews-scroll 42s linear infinite;will-change:transform}
-.testimonials-marquee:hover .testimonials-track{animation-play-state:paused}
+/* A faixa continua animando mesmo quando o mouse ou o dedo estão sobre ela. */
+.testimonials-marquee:hover .testimonials-track,.testimonials-marquee:active .testimonials-track{animation-play-state:running!important}
 .testimonial-card{flex:0 0 280px;min-height:174px;padding:18px;background:linear-gradient(145deg,#0c1b2b,#081321);border:1px solid #1d3b55;border-radius:14px;display:flex;flex-direction:column;align-items:flex-start;gap:9px}
 .testimonial-stars{color:#ffc94a;font-size:18px;letter-spacing:2px;line-height:1}
 .testimonial-card p{margin:0;color:#dce6f0;font-size:13px;line-height:1.55;flex:1}
 .testimonial-card strong{color:#fff;font-size:13px}
 .testimonial-card small{color:#8293a6;font-size:10px}
 @keyframes koala-reviews-scroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(prefers-reduced-motion:reduce){.testimonials-track{animation:none}}
 @media(max-width:560px){.testimonials-section{padding-top:24px;padding-bottom:38px}.testimonial-card{flex-basis:245px;min-height:170px}.testimonials-track{animation-duration:36s}}
