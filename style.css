@@ -225,3 +225,27 @@
  .top .nav .search.search-collapsed{order:0!important;flex:0 0 44px!important;width:44px!important;max-width:44px!important}
  .top .nav .search.search-expanded{order:3!important;flex:1 1 100%!important;width:100%!important;max-width:none!important}
 }
+
+/* Pesquisa alinhada aos botões do cabeçalho */
+.top .nav .actions{gap:8px}
+.top .nav .actions .search.search-collapsed{
+ flex:0 0 40px!important;width:40px!important;height:40px!important;max-width:40px!important;
+ margin:0!important;padding:0!important;border:1px solid #285276!important;border-radius:12px!important;
+ background:#0d2136!important;display:flex!important;align-items:center!important;justify-content:center!important;
+}
+.top .nav .actions .search.search-collapsed .search-toggle{
+ width:100%!important;height:100%!important;padding:9px!important;border-radius:12px!important;
+}
+.top .nav .actions .search.search-expanded{
+ flex:0 1 230px!important;width:230px!important;height:40px!important;max-width:230px!important;
+ margin:0!important;padding:0 8px!important;border-radius:12px!important;
+}
+.top .nav .actions .search.search-expanded .search-toggle{width:38px!important;height:38px!important;padding:8px!important}
+.top .nav .actions .search.search-expanded input{min-width:0!important;width:100%!important}
+@media(max-width:900px){
+ .top .nav .actions .search.search-collapsed{order:0!important;flex:0 0 40px!important;width:40px!important}
+ .top .nav .actions .search.search-expanded{order:0!important;flex:0 1 190px!important;width:190px!important;max-width:190px!important}
+}
+@media(max-width:560px){
+ .top .nav .actions .search.search-expanded{flex:0 1 145px!important;width:145px!important;max-width:145px!important}
+}
