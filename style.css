@@ -273,3 +273,8 @@
   width:22px;
   height:22px;
 }
+
+/* Mantém a marca à esquerda e os botões no extremo direito do cabeçalho */
+.nav > .actions{
+  margin-left:auto;
+}
