@@ -2,7 +2,7 @@ const products=[
 {id:'assinaturas',name:'Assinaturas',category:'Assinaturas',price:0,desc:'Essa função será adicionada em breve.',soon:true,image:PRODUCT_IMAGES.assinaturas},
 {id:'nitro',name:'Nitro Discord',category:'Discord',price:6.99,desc:'Produto digital Discord.',image:PRODUCT_IMAGES.nitro},
 {id:'texturas',name:'Texturas de Minecraft',category:'Jogos',price:2.00,desc:'Texturas digitais para Minecraft.',image:PRODUCT_IMAGES.texturas}];
-let cart=JSON.parse(localStorage.getItem('koalaCart')||'[]');let logged=false;
+let cart=JSON.parse(localStorage.getItem('koalaCart')||'[]');let logged=false;let loggedUser=null;
 const SUPABASE_URL='https://zsgzvblcpekwkfiuidsc.supabase.co';
 const SUPABASE_PUBLISHABLE_KEY='sb_publishable_OwCuAOMj5ZMCQH8TLWexmA_FF89wyX-';
 const supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_PUBLISHABLE_KEY);
@@ -18,8 +18,8 @@ function requireLogin(action){if(logged){action();return}window.pendingAction=ac
 async function loginWithProvider(provider){try{const {error}=await supabaseClient.auth.signInWithOAuth({provider,options:{redirectTo:window.location.origin+window.location.pathname}});if(error)throw error}catch(error){toast('Erro ao entrar: '+(error.message||'tente novamente.'))}}
 async function loginWithEmail(){const input=$('#loginEmail');if(!input||!input.value.trim()||!input.checkValidity())return toast('Digite um email válido.');const button=$('#emailLogin');button.disabled=true;button.textContent='Enviando...';try{const {error}=await supabaseClient.auth.signInWithOtp({email:input.value.trim(),options:{emailRedirectTo:window.location.origin+window.location.pathname,shouldCreateUser:true}});if(error)throw error;toast('Enviamos um link de acesso para seu email. Confira também o spam.');button.textContent='Link enviado'}catch(error){toast('Erro ao enviar email: '+(error.message||'tente novamente.'));button.disabled=false;button.textContent='Entrar'}}
 async function logout(){const {error}=await supabaseClient.auth.signOut();if(error)return toast('Erro ao sair: '+error.message);logged=false;renderHeader();toast('Você saiu da sua conta.')}
-function renderHeader(){const b=$('#loginBtn');b.setAttribute('aria-label',logged?'Sair':'Entrar');b.title=logged?'Sair':'Entrar'}
-function handleAuthSession(session){logged=!!session;renderHeader();if(session){const action=window.pendingAction;window.pendingAction=null;if(!$('#loginPage').hidden)closeLoginPage();if(action)setTimeout(action,150)}}
+function renderHeader(){const b=$('#loginBtn'),avatar=b.querySelector('.account-avatar'),name=b.querySelector('.account-name');b.classList.toggle('is-logged',logged);b.setAttribute('aria-label',logged?'Meu perfil':'Entrar');b.title=logged?'Meu perfil':'Entrar';if(logged&&loggedUser){const meta=loggedUser.user_metadata||{},photo=meta.avatar_url||meta.picture||meta.profile_image_url||meta.image_url||'';const displayName=meta.full_name||meta.name||meta.user_name||meta.preferred_username||(loggedUser.email?loggedUser.email.split('@')[0]:'Minha conta');name.textContent=displayName;if(photo){avatar.src=photo;avatar.style.display='block'}else{avatar.removeAttribute('src');avatar.style.display='none';b.classList.add('no-avatar')}}else{avatar.removeAttribute('src');avatar.style.display='none';name.textContent='';b.classList.remove('no-avatar')}}
+function handleAuthSession(session){logged=!!session;loggedUser=session?.user||null;renderHeader();if(session){const action=window.pendingAction;window.pendingAction=null;if(!$('#loginPage').hidden)closeLoginPage();if(action)setTimeout(action,150)}}
 
 function productCard(p,context='home'){
  const q=Number(sessionStorage.getItem('qty_'+p.id)||1);
