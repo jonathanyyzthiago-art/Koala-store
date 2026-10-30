@@ -25,11 +25,18 @@ function productCard(p,context='home'){
  const q=Number(sessionStorage.getItem('qty_'+p.id)||1);
  return `<article class="product-card"><div class="product-image">${p.image?`<img class="product-icon" src="${p.image}" alt="${esc(p.name)}">`:''}</div><div class="product-body"><h3>${esc(p.name)}</h3><p>${esc(p.desc)}</p>${p.soon?`<div class="soon">Em breve</div><div class="price">R$ 0,00</div><button class="btn full" data-soon>Essa função será adicionada em breve</button>`:`<div class="qty-line"><div class="qty"><button data-minus="${p.id}" aria-label="Diminuir quantidade">−</button><span id="q-${context}-${p.id}">${q}</span><button data-plus="${p.id}" aria-label="Aumentar quantidade">+</button></div><img class="pix-mini" src="https://cdn.simpleicons.org/pix/32BCAD" alt="Pix"></div><div class="price" id="price-${context}-${p.id}">${money(p.price*q)}</div><div class="pix-price-label">À vista no pix</div><button class="btn primary full" data-buy="${p.id}" data-context="${context}">Adicionar ao carrinho</button>`}</div></article>`}
 function setupRevealAnimations(root=document){
- const selectors='.category-card,.product-card,.review,.btn,.icon-btn,.back-btn,.payment-option,.contact-form label,.terms,.pay-btn,.checkout-item';
+ const selectors='.top .brand,.top .actions > *, .hero img,.section-title,.section-title h2,.section-title p,.category-card,.cat-art img,.category-card b,.product-card,.product-image img,.product-body h3,.product-body p,.product-body small,.product-body strong,.price,.pix-price-label,.soon,.product-body .btn,.testimonial-card,.testimonial-card *,.footer-brand,.footer-side,.footer-brand *,.footer-side *,.review,.review *,.btn,.icon-btn,.back-btn,.payment-option,.payment-option *,.contact-form label,.terms,.pay-btn,.checkout-item,.checkout-item *,.login-panel,.login-panel *';
  const items=[...root.querySelectorAll(selectors)].filter(el=>!el.classList.contains('reveal-item'));
- items.forEach((el,i)=>{el.classList.add('reveal-item');el.style.setProperty('--reveal-delay',Math.min(i,8)*70+'ms')});
+ items.forEach(el=>{el.classList.add('reveal-item');el.style.setProperty('--reveal-delay','0ms')});
  if(!window.koalaRevealObserver){
-   window.koalaRevealObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('revealed');window.koalaRevealObserver.unobserve(entry.target)}}),{threshold:.08,rootMargin:'0px 0px -35px 0px'});
+   window.koalaRevealObserver=new IntersectionObserver(entries=>{
+     const visible=entries.filter(entry=>entry.isIntersecting);
+     if(!visible.length)return;
+     requestAnimationFrame(()=>visible.forEach(entry=>{
+       entry.target.classList.add('revealed');
+       window.koalaRevealObserver.unobserve(entry.target);
+     }));
+   },{threshold:0.01,rootMargin:'0px 0px -8% 0px'});
  }
  items.forEach(el=>window.koalaRevealObserver.observe(el));
 }
